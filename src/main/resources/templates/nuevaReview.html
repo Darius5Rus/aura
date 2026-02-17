@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Review</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-2">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0" th:text="${review.id} != null ? 'Editar Review' : 'Nueva Review'"></h4>
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/listaReview/guardarReview}" th:object="${review}" method="post">
+
+                <input type="hidden" th:field="*{id}"/>
+
+                <!-- Descripcion -->
+                <div class="mb-3">
+                    <label class="form-label">Descripcion</label>
+                    <textarea th:field="*{descripcion}" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <!-- Valoracion -->
+                <div class="mb-3">
+                    <label class="form-label">Valoracion</label>
+                    <input type="number" th:field="*{valoracion}" class="form-control" min="1" max="5" required>
+                </div>
+
+                <!-- Cliente -->
+                <div class="mb-3">
+                    <label class="form-label">ID Cliente</label>
+                    <input type="number" th:field="*{idCliente}" class="form-control" required>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-between">
+                    <a th:href="@{/listaReview}" class="btn btn-secondary">Volver</a>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FRAGMENT DE FOOTER -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

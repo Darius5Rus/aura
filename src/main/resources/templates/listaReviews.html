@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Reviews</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Listado de Reviews</h2>
+        <a class="btn btn-primary" th:href="@{/listaReview/nuevaReview}">Nueva Review</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Descripcion</th>
+                        <th>Valoracion</th>
+                        <th>IDCliente</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="r : ${listaReviews}">
+                        <td th:text="${r.id}"></td>
+                        <td th:text="${r.descripcion}"></td>
+                        <td th:text="${r.valoracion}"></td>
+                        <td th:text="${r.idCliente}"></td>
+
+                        <td>
+                            <a th:href="@{'/listaReview/editar/' + ${r.id}}" class="btn btn-sm btn-warning me-1">
+                                Editar
+                            </a>
+
+                            <a th:href="@{'/listaReview/eliminar/' + ${r.id}}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FRAGMENT DE FOOTER -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
