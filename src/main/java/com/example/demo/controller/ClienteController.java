@@ -18,6 +18,7 @@ import com.example.demo.entity.Cliente;
 @RequestMapping("/listaCliente") //ruta del controlador y la que usara el listar.
 public class ClienteController {
 
+	// Prueba del Supuesto 1
 	@Autowired
     private ClienteService clienteService;//creamos e instanciamos la clase clienteService con los CRUD.
 	
