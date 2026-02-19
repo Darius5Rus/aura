@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase.Replace;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.example.demo.entity.Cliente;
 import com.example.demo.repository.ClienteRepository;
 
+@ActiveProfiles("test")
 @DataJpaTest //Arranca solo la parte de Base de Datos de Spring
 @AutoConfigureTestDatabase(replace = Replace.NONE) // Usa Base de Datos real (MySQL) en vez de una en memoria
 public class ClienteRepositoryTest {
