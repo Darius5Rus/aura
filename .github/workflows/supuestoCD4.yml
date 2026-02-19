@@ -1,4 +1,4 @@
-name: CD_Supuesto 4
+name: CD - Supuesto 4 - Web de Documentacion Tecnica
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # Necesario para escribir en la rama gh-pages
+      contents: write
 
     steps:
       - name: Checkout del código
@@ -22,12 +22,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # Genera el Javadoc en target/site/apidocs/
       - name: Generar Javadoc
-        run: mvn -B javadoc:javadoc
+        run: mvn -B site -DgenerateReports=false javadoc:javadoc
 
-      # Despliega el contenido de target/site/apidocs en la rama gh-pages
-      # GitHub Pages servirá esa rama como una web pública
       - name: Desplegar Javadoc en GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
