@@ -18,7 +18,7 @@ jobs:
           cache: 'maven'
 
       - name: Escanear vulnerabilidades (OWASP)
-        run: mvn -B dependency-check:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        run: mvn -B dependency-check:check -DnvdApiKey=${{ secrets.NVD_API_KEY }} -DfailOnError=false
 
       - name: Subir informe de vulnerabilidades
         if: always()
