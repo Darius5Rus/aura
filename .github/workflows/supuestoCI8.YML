@@ -1,7 +1,8 @@
-name: Supuesto 8 - Escaneo de Vulnerabilidades (SecOps)
+name: Supuesto 8
 
 on:
   push:
+   branches: ["feature-dev"]
 
 jobs:
   build:
