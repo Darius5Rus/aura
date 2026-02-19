@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout del cÃ³digo
+      - name: Checkout del código
         uses: actions/checkout@v4
 
       - name: Set up JDK 21 Zulu
@@ -17,6 +17,12 @@ jobs:
           distribution: 'zulu'
           cache: 'maven'
 
-      # SUPUESTO 8: Ejecutamos el escaner de vulnerabilidades de OWASP
       - name: Escanear vulnerabilidades (OWASP)
-        run: mvn -B org.owasp:dependency-check-maven:check
+        run: mvn -B dependency-check:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+
+      - name: Subir informe de vulnerabilidades
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: owasp-report
+          path: target/dependency-check-report.html
