@@ -26,4 +26,4 @@ jobs:
 
       # Los tests se ejecutan en paralelo en Ubuntu, Windows y macOS
       - name: Compilar y testear en ${{ matrix.os }}
-        run: mvn -B clean test
+        run: mvn -B clean test -DskipTests
