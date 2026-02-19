@@ -2,7 +2,6 @@ name: Supuesto 7
 
 on: 
   push:
-    branches: ["feature-dev"]
 
 jobs:
   build: 
