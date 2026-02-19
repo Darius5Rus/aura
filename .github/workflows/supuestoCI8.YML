@@ -18,7 +18,7 @@ jobs:
     #Descargar el código
     - uses: actions/checkout@v4
 
-    #Configurar Java y Caché de Maven (Supuestos 3 y 5)
+    #Configurar Java y Caché de Maven (Supuestos 3 y 5).
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
