@@ -1,36 +1,29 @@
-name: Supuesto 7
+name: Supuesto 7 - El Camaleón Multiplataforma
 
-on: 
+on:
   push:
 
 jobs:
-  build: 
-    #LA MATRIZ
+  build:
+    # La variable ${{ matrix.os }} se sustituye por cada valor de la matriz
+    runs-on: ${{ matrix.os }}
+
+    # Definición de la matriz: GitHub lanzará un job por cada combinación
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
-    #CAMBIAMOS ESTO para que use la variable de la matriz
-    runs-on: ${{ matrix.os }}
-
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout del código
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'zulu'
-        cache: maven
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Build with Maven
-      run: mvn -B clean package --file pom.xml -DskipTests
-      
-	  #informe de zip
-    - name: Subir informes de tests (Surefire)
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        #Le añadimos el nombre del SO al archivo para que no se sobreescriban
-        name: surefire-reports-${{ matrix.os }}
-        path: target/surefire-reports/
+      # Los tests se ejecutan en paralelo en Ubuntu, Windows y macOS
+      - name: Compilar y testear en ${{ matrix.os }}
+        run: mvn -B clean test
