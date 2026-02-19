@@ -1,5 +1,4 @@
-name: Supuesto 8
-
+name: CI - Supuesto 8 
 on:
   push:
 
@@ -18,16 +17,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Compilar y testear con Maven
+      - name: Compilar con Maven
         run: mvn -B clean package -DskipTests
 
-      # Análisis de vulnerabilidades con OWASP Dependency-Check
-      # Escanea todas las dependencias del pom.xml buscando CVEs conocidos
-      # --failBuildOnCVSS 7 hace que el pipeline falle si hay vulnerabilidades graves (CVSS >= 7)
+      # El plugin debe estar declarado en el pom.xml para que este comando funcione
       - name: Escaneo OWASP Dependency-Check
-        run: mvn org.owasp:dependency-check-maven:check -DfailBuildOnCVSS=7
+        run: mvn -B dependency-check:check
 
-      # Si el escaneo falla o queremos revisar el informe, lo subimos como artefacto
+      # Sube el informe siempre, tanto si falla como si no
       - name: Subir informe de vulnerabilidades
         if: always()
         uses: actions/upload-artifact@v4
