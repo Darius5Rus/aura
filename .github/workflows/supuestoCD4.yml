@@ -23,7 +23,7 @@ jobs:
           cache: maven
 
       - name: Generar Javadoc
-        run: mvn -B site -DgenerateReports=false javadoc:javadoc
+        run: mvn -B javadoc:javadoc -Ddestdir=target/site/apidocs
 
       - name: Desplegar Javadoc en GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
