@@ -1,0 +1,35 @@
+name: CD_Supuesto 6
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Generar .war con Maven
+        run: mvn -B clean package -DskipTests
+
+      # Envía el .war al servidor remoto usando SCP (copia segura por SSH)
+      # Los datos sensibles (IP, usuario, clave SSH) se guardan como Secrets en GitHub:
+      # Settings > Secrets and variables > Actions > New repository secret
+      - name: Enviar .war al servidor remoto via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}       # IP o dominio del servidor
+          username: ${{ secrets.SERVER_USER }}   # Usuario SSH del servidor
+          key: ${{ secrets.SSH_PRIVATE_KEY }}    # Clave privada SSH
+          source: "target/*.war"
+          target: "/var/www/app/"                # Carpeta destino en el servidor
