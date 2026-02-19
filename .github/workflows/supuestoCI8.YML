@@ -11,7 +11,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
-    # Usamos la variable de la matriz para el sistema operativo
+    # Usamos la variable de la matriz para el sistema operativo.
     runs-on: ${{ matrix.os }}
 
     steps:
