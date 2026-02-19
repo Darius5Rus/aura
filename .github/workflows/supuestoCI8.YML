@@ -1,4 +1,4 @@
-name: Supuesto 7
+name: Supuesto 8
 
 on: 
   push:
@@ -6,17 +6,19 @@ on:
 
 jobs:
   build: 
-    #LA MATRIZ
+    # LA MATRIZ
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
-    #CAMBIAMOS ESTO para que use la variable de la matriz
+    # Usamos la variable de la matriz para el sistema operativo
     runs-on: ${{ matrix.os }}
 
     steps:
+    #Descargar el código
     - uses: actions/checkout@v4
 
+    #Configurar Java y Caché de Maven (Supuestos 3 y 5)
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -24,13 +26,19 @@ jobs:
         distribution: 'zulu'
         cache: maven
 
+    #Compilar el proyecto (Supuesto 4)
     - name: Build with Maven
       run: mvn -B clean package --file pom.xml -DskipTests
+
+    #Escaneo de Vulnerabilidades SecOps (NUEVO Supuesto 8)
+    - name: Escaneo de Seguridad OWASP
+      run: mvn -B org.owasp:dependency-check-maven:check
       
+    #Evidencias en caso de desastre (Supuesto 6)
     - name: Subir informes de tests (Surefire)
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        #Le añadimos el nombre del SO al archivo para que no se sobreescriban
+        # Añadimos el OS al nombre para tener 3 zips distintos si fallan
         name: surefire-reports-${{ matrix.os }}
         path: target/surefire-reports/
