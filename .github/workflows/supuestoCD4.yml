@@ -1,0 +1,35 @@
+name: CD_Supuesto 4
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  javadoc:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # Necesario para escribir en la rama gh-pages
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # Genera el Javadoc en target/site/apidocs/
+      - name: Generar Javadoc
+        run: mvn -B javadoc:javadoc
+
+      # Despliega el contenido de target/site/apidocs en la rama gh-pages
+      # GitHub Pages servirá esa rama como una web pública
+      - name: Desplegar Javadoc en GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: target/site/apidocs
+          branch: gh-pages
