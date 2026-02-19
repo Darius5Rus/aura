@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-ejecutable
-          path: target/*.war
+          path: target/*.jar
 
       # Paso final: imprimir en el log la fecha, el autor y un mensaje de éxito
       # github.actor es la variable con el nombre del usuario que hizo el push
