@@ -1,33 +1,22 @@
-name: CI - Supuesto 8 
-on:
-  push:
+name: Supuesto 8 - Escaneo SecOps
+
+on: push
 
 jobs:
-  build:
+  security-check:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout del código
+      - name: Checkout del cÃ³digo
         uses: actions/checkout@v4
 
-      - name: Configurar Java 21
+      - name: Set up JDK 21 Zulu
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'temurin'
-          cache: maven
+          distribution: 'zulu'
+          cache: 'maven'
 
-      - name: Compilar con Maven
-        run: mvn -B clean package -DskipTests
-
-      # El plugin debe estar declarado en el pom.xml para que este comando funcione
-      - name: Escaneo OWASP Dependency-Check
-        run: mvn -B dependency-check:check
-
-      # Sube el informe siempre, tanto si falla como si no
-      - name: Subir informe de vulnerabilidades
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: owasp-dependency-check-report
-          path: target/dependency-check-report.html
+      # SUPUESTO 8: Ejecutamos el escaner de vulnerabilidades de OWASP
+      - name: Escanear vulnerabilidades (OWASP)
+        run: mvn -B org.owasp:dependency-check-maven:check
